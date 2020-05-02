@@ -10,13 +10,14 @@ struct Pw{
     Pw(): empty(true), password_name(""), password_real("") {}
 
     Pw(string pword_name, string pword_real): 
-    password_name(pword_name), password_real(pword_real), empty(true) {} 
+    password_name(pword_name), password_real(pword_real), em
+    
 
     Pw& operator =(const Pw& other){
         password_name = other.password_name; 
         password_real = other.password_real;
         return *this;
-    }
+    } 
 }; 
 
 class HashTable{
