@@ -74,7 +74,6 @@ void updateDataBase(HashTable* ht, string loginpassword){
 
 
 void getPassword(HashTable* ht){
-<<<<<<< HEAD
 
 }
 
@@ -82,21 +81,12 @@ void getPassword(HashTable* ht){
 bool interact_createAcct(){ 
 
   
-=======
-
->>>>>>> 3a5ab0e7321cfad3276c1de5ccf5033d7ce4c8d8
 }
 
 //same as other version 
 bool interact_createAcct(){ 
-
-<<<<<<< HEAD
-int main(int argc, char *argv[]){
-    
-=======
-  
->>>>>>> 3a5ab0e7321cfad3276c1de5ccf5033d7ce4c8d8
 }
+
 
 
 int main(int argc, char *argv[]){
