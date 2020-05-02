@@ -7,45 +7,45 @@ using namespace std;
 
 
 string encrypt(string str){
-����for(int i = 0; i < str.size(); ++i){
-��������str[i] -= 5; 
-����}
-����return str; 
+    for(int i = 0; i < str.size(); ++i){
+        str[i] -= 5; 
+    }
+    return str; 
 }
 
 string decrypt(string str){
-����for(int i = 0; i < str.size(); ++i){
-��������str[i] += 5; 
-����}
-����return str; 
+    for(int i = 0; i < str.size(); ++i){
+        str[i] += 5; 
+    }
+    return str; 
 }
 
 bool checkForDataBase(){
-����ifstream myfile("database.txt");
-����if(myfile.is_open()){
-��������myfile.close(); 
-��������return true;
-����}else{
-��������cout << "No database in directory" << endl;
-��������return false; 
-����}
+    ifstream myfile("database.txt");
+    if(myfile.is_open()){
+        myfile.close(); 
+        return true;
+    }else{
+        cout << "No database in directory" << endl;
+        return false; 
+    }
 }
 
 bool checkForAcct(){
-����string password; 
-����ifstream myfile("database.txt"); 
-����if(myfile.is_open()){
-��������getline(myfile, password); 
-��������myfile.close(); 
-��������if(password.size() > 0){
-������������return true; 
-��������}else{
-������������return false;��
-��������}
-����}else{
-��������cout << "No database file in directory" << endl; 
-��������return false;��
-����}
+    string password; 
+    ifstream myfile("database.txt"); 
+    if(myfile.is_open()){
+        getline(myfile, password); 
+        myfile.close(); 
+        if(password.size() > 0){
+            return true; 
+        }else{
+            return false;
+        }
+    }else{
+        cout << "No database file in directory" << endl; 
+        return false;
+    }
 }
 
 
@@ -115,21 +115,21 @@ void insertNewPassword(DLLStack* dlls){
 }
 
 void removePassword(DLLStack* dlls){
-����string password_name; 
-����cout << "Name of password to be removed: ";
-����cin >> password_name; 
-���// auto start = chrono::high_resolution_clock::now();
-����if((*dlls).remove(password_name)){
-�������// auto end = chrono::high_resolution_clock::now();
-��������//double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
-��������/*time_taken *= 1e-9; 
-��������cout << fixed��
-��������<< time_taken << setprecision(9); 
-��������cout << endl; 
-��������cout << password_name << " was successfully removed\n";*/
-����}else{
-��������cout << "No password with name: " << password_name << endl;
-����}
+    string password_name; 
+    cout << "Name of password to be removed: ";
+    cin >> password_name; 
+    // auto start = chrono::high_resolution_clock::now();
+    if((*dlls).remove(password_name)){
+    // auto end = chrono::high_resolution_clock::now();
+    //double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
+    /*time_taken *= 1e-9; 
+    cout << fixed
+    << time_taken << setprecision(9); 
+    cout << endl; 
+    cout << password_name << " was successfully removed\n";*/
+    }else{
+        cout << "No password with name: " << password_name << endl;
+    }
 }
 
 void updateDataBase(DLLStack* dlls, string loginpassword){
