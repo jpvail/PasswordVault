@@ -77,14 +77,7 @@ void buildDLLStack(DLLStack* dlls){
         myfile >> passw_name;
         myfile >> passw_real;
         if(myfile.eof()) break; 
-        //auto start = chrono::high_resolution_clock::now();
         (*dlls).push(passw_name, decrypt(passw_real));
-        /*auto end = chrono::high_resolution_clock::now();
-        double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
-        time_taken *= 1e-9; 
-        cout << fixed  
-        << time_taken << setprecision(9); 
-        cout << endl; */
     }
     myfile.close(); 
 }
@@ -118,15 +111,8 @@ void removePassword(DLLStack* dlls){
     string password_name; 
     cout << "Name of password to be removed: ";
     cin >> password_name; 
-    // auto start = chrono::high_resolution_clock::now();
-    if((*dlls).remove(password_name)){
-    // auto end = chrono::high_resolution_clock::now();
-    //double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
-    /*time_taken *= 1e-9; 
-    cout << fixed
-    << time_taken << setprecision(9); 
-    cout << endl; 
-    cout << password_name << " was successfully removed\n";*/
+    if((*dlls).remove(password_name)){ 
+        cout << password_name << " was successfully removed\n";
     }else{
         cout << "No password with name: " << password_name << endl;
     }
@@ -146,14 +132,7 @@ void getPassword(DLLStack* dlls){
     string password_name; 
     cout << "Name of password to find: ";
     cin >> password_name; 
-    //auto start = chrono::high_resolution_clock::now();
     (*dlls).findPassword(password_name); 
-   /* auto end = chrono::high_resolution_clock::now();
-    double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
-    time_taken *= 1e-9; 
-    cout << fixed  
-    << time_taken << setprecision(9); 
-    cout << endl; */
 }
 
 
@@ -236,14 +215,7 @@ int main(int argc, char *argv[]){
                 getPassword(&dlls);
             }else if(addorget.compare("r") == 0){
                 removePassword(&dlls);
-                //auto start = chrono::high_resolution_clock::now(); 
                 updateDataBase(&dlls, loginpassword);
-                /*auto end = chrono::high_resolution_clock::now(); 
-                double time_taken =  chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
-                time_taken *= 1e-9; 
-                cout << fixed  
-                << time_taken << setprecision(9); 
-                cout << endl; */
             }else{
                 cout << "Only respond, a r or g\n"; 
             }
