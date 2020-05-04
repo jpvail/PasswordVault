@@ -29,7 +29,7 @@ class Node{
 };
 
 
-class DLLStack{
+class DoublyLinkedList{
     private: 
         
         int size; 
@@ -54,9 +54,9 @@ class DLLStack{
 
     public: 
 
-        DLLStack(){ initialize(); }
+        DoublyLinkedList(){ initialize(); }
 
-        ~DLLStack() { clearList(); }
+        ~DoublyLinkedList() { clearList(); }
 
         void clear() { clearList(); initialize(); }
        

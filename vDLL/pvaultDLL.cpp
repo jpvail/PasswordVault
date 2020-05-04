@@ -2,7 +2,7 @@
 #include <fstream> 
 #include <cstring> 
 #include <chrono> 
-#include "DLL.hh"
+#include "DoublyLinkedList.hh"
 using namespace std; 
 
 
@@ -69,7 +69,7 @@ bool interact_login(string* loginpassword){
     }
 }
 
-void buildDLLStack(DLLStack* dlls){
+void buildDLL(DoublyLinkedList* dlls){
     ifstream myfile("database.txt"); 
     string passw_name, passw_real, oldstoredpassword; 
     myfile >> oldstoredpassword;
@@ -94,7 +94,7 @@ void buildDLLStack(DLLStack* dlls){
     myfile.close(); 
 }
 
-void insertNewPassword(DLLStack* dlls){
+void insertNewPassword(DoublyLinkedList* dlls){
     int insert_another_password = 1;
     while(insert_another_password){
         string password_name, password, another; 
@@ -119,7 +119,7 @@ void insertNewPassword(DLLStack* dlls){
     } 
 }
 
-void removePassword(DLLStack* dlls){
+void removePassword(DoublyLinkedList* dlls){
     string password_name; 
     cout << "Name of password to be removed: ";
     cin >> password_name; 
@@ -129,7 +129,6 @@ void removePassword(DLLStack* dlls){
 #endif
     if((*dlls).remove(password_name)){
 #if REMOVE_TESTING
-        cout << "Time taken to remove element from database with " << dlls->length() << " elements: " << endl;
         auto end = chrono::high_resolution_clock::now();
         double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
         time_taken *= 1e-9; 
@@ -143,7 +142,7 @@ void removePassword(DLLStack* dlls){
     }
 }
 
-void updateDataBase(DLLStack* dlls, string loginpassword){
+void updateDataBase(DoublyLinkedList* dlls, string loginpassword){
     ofstream myfile("database.txt", std::ofstream::trunc);
     myfile << loginpassword << endl;
     while((*dlls).length() > 0){
@@ -153,7 +152,7 @@ void updateDataBase(DLLStack* dlls, string loginpassword){
     myfile.close();
 }
 
-void getPassword(DLLStack* dlls){
+void getPassword(DoublyLinkedList* dlls){
     string password_name; 
     cout << "Name of password to find: ";
     cin >> password_name; 
@@ -240,8 +239,8 @@ int main(int argc, char *argv[]){
             while(!(loggedin)){
                 loggedin = interact_login(&loginpassword); 
             }
-            DLLStack dlls; 
-            buildDLLStack(&dlls);            
+            DoublyLinkedList dlls; 
+            buildDLL(&dlls);            
             string addorget; 
             cout << "Would you like to add, get, or remove a password (a / g / r)? "; 
             cin >> addorget; 
