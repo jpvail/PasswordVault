@@ -78,6 +78,7 @@ void buildDLLStack(DLLStack* dlls){
         myfile >> passw_real;
         if(myfile.eof()) break; 
 #if ADD_TESTING 
+        cout << "Time taken to add element to database with " << dlls->length() << " elements: " << endl;
         auto start = chrono::high_resolution_clock::now();
 #endif
         (*dlls).push(passw_name, decrypt(passw_real));
@@ -124,9 +125,11 @@ void removePassword(DLLStack* dlls){
     cin >> password_name; 
 #if REMOVE_TESTING
     auto start = chrono::high_resolution_clock::now();
+    cout << "Time taken to remove element from database with " << dlls->length() << " elements: " << endl;
 #endif
     if((*dlls).remove(password_name)){
 #if REMOVE_TESTING
+        cout << "Time taken to remove element from database with " << dlls->length() << " elements: " << endl;
         auto end = chrono::high_resolution_clock::now();
         double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
         time_taken *= 1e-9; 
@@ -159,6 +162,7 @@ void getPassword(DLLStack* dlls){
 #endif
     (*dlls).findPassword(password_name); 
 #if GET_TESTING
+    cout << "Time taken to get element from database with " << dlls->length() << " elements: " << endl;
     auto end = chrono::high_resolution_clock::now();
     double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
     time_taken *= 1e-9; 
@@ -220,6 +224,7 @@ bool interact_createAcct(){
                 errorcheck = 1; 
             }
         }
+        return false; 
     }else{
         cout << "No database file in directory" << endl; 
         return false;

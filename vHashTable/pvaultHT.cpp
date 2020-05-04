@@ -56,7 +56,12 @@ bool interact_login(string* loginpassword, int* size){
         myfile >> stored_password >> prevSize;  
         if(decrypt(stored_password).compare(inputpassword) == 0){
             myfile.close();
-            *size = stoi(prevSize); 
+            try{
+                *size = stoi(prevSize);
+            }catch(...){
+                cout << "Database Error: No number indicating size of database" << endl;
+                exit(1); 
+            }
             *loginpassword = stored_password; 
             return true; 
         }else{
@@ -77,6 +82,7 @@ void buildHT(HashTable* ht){
         myfile >> passw_name >> passw_real;
         if(myfile.eof()) break; 
 #if ADD_TESTING
+        cout << "Time taken to add element to database with " << ht->count() << " elements: " << endl;
         auto start = chrono::high_resolution_clock::now(); 
 #endif 
         (*ht).insert(passw_name, decrypt(passw_real)); 
@@ -122,6 +128,7 @@ void removePassword(HashTable* ht){
     cout << "Name of password to be removed: ";
     cin >> password_name; 
 #if REMOVE_TESTING
+    cout << "Time taken to remove element from database with " << ht->count() << " elements: " << endl;     
     auto start = chrono::high_resolution_clock::now(); 
 #endif
     if((*ht).remove(password_name)){
@@ -161,6 +168,7 @@ void getPassword(HashTable* ht){
 #endif
     (*ht).search(password_name); 
 #if GET_TESTING
+    cout << "Time taken to get element from database with " << ht->count() << " elements: " << endl;
     auto end = chrono::high_resolution_clock::now(); 
     double time_taken =  chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
     time_taken *= 1e-9; 
@@ -225,6 +233,7 @@ bool interact_createAcct(){
                 errorcheck = 1; 
             }
         }
+        return false;
     }else{
         cout << "No database file in directory" << endl; 
         return false;
