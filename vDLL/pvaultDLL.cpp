@@ -40,11 +40,11 @@ bool checkForAcct(){
         if(password.size() > 0){
             return true; 
         }else{
-            return false;
+            return false;  
         }
     }else{
         cout << "No database file in directory" << endl; 
-        return false;
+        return false;  
     }
 }
 
@@ -77,7 +77,18 @@ void buildDLLStack(DLLStack* dlls){
         myfile >> passw_name;
         myfile >> passw_real;
         if(myfile.eof()) break; 
+#if ADD_TESTING 
+        auto start = chrono::high_resolution_clock::now();
+#endif
         (*dlls).push(passw_name, decrypt(passw_real));
+#if ADD_TESTING
+        auto end = chrono::high_resolution_clock::now();
+        double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
+        time_taken *= 1e-9; 
+        cout << fixed  
+        << time_taken << setprecision(9); 
+        cout << endl; 
+#endif
     }
     myfile.close(); 
 }
@@ -111,7 +122,18 @@ void removePassword(DLLStack* dlls){
     string password_name; 
     cout << "Name of password to be removed: ";
     cin >> password_name; 
-    if((*dlls).remove(password_name)){ 
+#if REMOVE_TESTING
+    auto start = chrono::high_resolution_clock::now();
+#endif
+    if((*dlls).remove(password_name)){
+#if REMOVE_TESTING
+        auto end = chrono::high_resolution_clock::now();
+        double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
+        time_taken *= 1e-9; 
+        cout << fixed  
+        << time_taken << setprecision(9); 
+        cout << endl; 
+#endif
         cout << password_name << " was successfully removed\n";
     }else{
         cout << "No password with name: " << password_name << endl;
@@ -132,7 +154,18 @@ void getPassword(DLLStack* dlls){
     string password_name; 
     cout << "Name of password to find: ";
     cin >> password_name; 
+#if GET_TESTING
+    auto start = chrono::high_resolution_clock::now();
+#endif
     (*dlls).findPassword(password_name); 
+#if GET_TESTING
+    auto end = chrono::high_resolution_clock::now();
+    double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
+    time_taken *= 1e-9; 
+    cout << fixed  
+    << time_taken << setprecision(9); 
+    cout << endl; 
+#endif
 }
 
 
@@ -198,13 +231,12 @@ int main(int argc, char *argv[]){
     if(checkForDataBase()){
         if(checkForAcct()){
             bool loggedin = false; 
-            //need password for updating database
             string loginpassword; 
             while(!(loggedin)){
                 loggedin = interact_login(&loginpassword); 
             }
             DLLStack dlls; 
-            buildDLLStack(&dlls);
+            buildDLLStack(&dlls);            
             string addorget; 
             cout << "Would you like to add, get, or remove a password (a / g / r)? "; 
             cin >> addorget; 

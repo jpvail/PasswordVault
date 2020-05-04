@@ -5,7 +5,6 @@
 #include "HT.hh"
 using namespace std; 
 
-//same as other version 
 string encrypt(string str){
     for(int i = 0; i < str.size(); ++i){
         str[i] -= 5; 
@@ -13,7 +12,6 @@ string encrypt(string str){
     return str; 
 }
 
-//same as other version 
 string decrypt(string str){
     for(int i = 0; i < str.size(); ++i){
         str[i] += 5; 
@@ -21,7 +19,6 @@ string decrypt(string str){
     return str; 
 }
 
-//same as other version 
 bool checkForDataBase(){
     ifstream myfile("database.txt");
     if(myfile.is_open()){
@@ -33,7 +30,6 @@ bool checkForDataBase(){
     }
 }
 
-//same as other version 
 bool checkForAcct(){
     string password; 
     ifstream myfile("database.txt"); 
@@ -72,7 +68,6 @@ bool interact_login(string* loginpassword, int* size){
     }
 }
 
-
 void buildHT(HashTable* ht){
     ifstream myfile("database.txt"); 
     string passw_name, passw_real, oldstoredpassword; 
@@ -81,41 +76,63 @@ void buildHT(HashTable* ht){
     while (true){
         myfile >> passw_name >> passw_real;
         if(myfile.eof()) break; 
+#if ADD_TESTING
+        auto start = chrono::high_resolution_clock::now(); 
+#endif 
         (*ht).insert(passw_name, decrypt(passw_real)); 
+#if ADD_TESTING
+        auto end = chrono::high_resolution_clock::now(); 
+        double time_taken =  chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
+        time_taken *= 1e-9; 
+        cout << fixed  
+        << time_taken << setprecision(9); 
+        cout << endl; 
+#endif
     }
     myfile.close(); 
 }
 
 void insertNewPassword(HashTable* ht){
     int insert_another_password = 1;
-    while(insert_another_password){
-        string password_name, password, another; 
-        cout << "Insert name for this password (For better preformance, use a word): ";
-        cin >> password_name;   
-        cout << "Insert password (will be encrypted): ";
-        cin >> password;
-        (*ht).insert(password_name, password);
-        int y = 1; 
-        while(y){
-            y = 0;
-            cout << "Would you like to store another (y / n)? ";
-            cin >> another;
-            if(another.compare("y") == 0){
-                insert_another_password = 1;
-            }else if(another.compare("n") == 0){
-                insert_another_password = 0; 
-            }else{
-                y = 1;
-            }
-        }
-    } 
+    while(insert_another_password){
+        string password_name, password, another; 
+        cout << "Insert name for this password (For better preformance, use a word): ";
+        cin >> password_name;   
+        cout << "Insert password (will be encrypted): ";
+        cin >> password;
+        (*ht).insert(password_name, password);
+        int y = 1; 
+        while(y){
+            y = 0;
+            cout << "Would you like to store another (y / n)? ";
+            cin >> another;
+            if(another.compare("y") == 0){
+                insert_another_password = 1;
+            }else if(another.compare("n") == 0){
+                insert_another_password = 0; 
+            }else{
+                y = 1;
+            }
+        }
+    } 
 }
 
 void removePassword(HashTable* ht){
     string password_name; 
     cout << "Name of password to be removed: ";
     cin >> password_name; 
+#if REMOVE_TESTING
+    auto start = chrono::high_resolution_clock::now(); 
+#endif
     if((*ht).remove(password_name)){
+#if REMOVE_TESTING
+        auto end = chrono::high_resolution_clock::now(); 
+        double time_taken =  chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
+        time_taken *= 1e-9; 
+        cout << fixed  
+        << time_taken << setprecision(9); 
+        cout << endl; 
+#endif
         cout << password_name << " was successfully removed\n";
     }else{
         cout << "No password with name: " << password_name << endl;
@@ -135,15 +152,24 @@ void updateDataBase(HashTable* ht, string loginpassword){
 }
 
 
-
 void getPassword(HashTable* ht){
     string password_name; 
-    cout << "Name of password to find: ";
-    cin >> password_name; 
-    (*ht).search(password_name); 
+    cout << "Name of password to find: ";
+    cin >> password_name; 
+#if GET_TESTING
+    auto start = chrono::high_resolution_clock::now(); 
+#endif
+    (*ht).search(password_name); 
+#if GET_TESTING
+    auto end = chrono::high_resolution_clock::now(); 
+    double time_taken =  chrono::duration_cast<chrono::nanoseconds>(end - start).count(); 
+    time_taken *= 1e-9; 
+    cout << fixed  
+    << time_taken << setprecision(9); 
+    cout << endl; 
+#endif
 }
 
-//same as other version 
 bool interact_createAcct(){ 
     string pwrd1, pwrd2, quitorcont; 
     while((pwrd1.size() == 0 && pwrd2.size() == 0) || pwrd1.compare(pwrd2) != 0){
@@ -210,7 +236,6 @@ int main(int argc, char *argv[]){
     if(checkForDataBase()){
         if(checkForAcct()){
             bool loggedin = false; 
-            //need password for updating database
             string loginpassword; 
             int size; 
 
@@ -227,6 +252,9 @@ int main(int argc, char *argv[]){
                 insertNewPassword(ht);
                 updateDataBase(ht, loginpassword); 
             }else if(addorget.compare("g") == 0){
+#if SHOW_HT
+                (*ht).printAll();
+#endif
                 getPassword(ht);
             }else if(addorget.compare("r") == 0){
                 removePassword(ht);
@@ -241,3 +269,5 @@ int main(int argc, char *argv[]){
     }
     return 0;
 }
+
+
