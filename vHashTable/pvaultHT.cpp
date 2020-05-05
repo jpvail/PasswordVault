@@ -251,7 +251,7 @@ int main(int argc, char *argv[]){
             while(!(loggedin)){
                 loggedin = interact_login(&loginpassword, &size); 
             }
-            int newsz = size + 50; 
+            int newsz = size*2; 
             HashTable* ht = new HashTable(newsz); 
             buildHT(ht);
             string addorget; 

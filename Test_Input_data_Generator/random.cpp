@@ -16,7 +16,7 @@ int main ()
 	char word2[7];
 	int x=0;
 	srand(time(0));
-	while (x<20000) 
+	while (x<100000) 
 	{
 	  rword(word);
 	  rword(word2);
