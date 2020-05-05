@@ -27,7 +27,7 @@ class HashTable{
         int top; 
         Pw* array; 
 
-
+        //hash function
         int hash(string password_name){
             int home;
             for (int i = 0; i < password_name.size(); i++){
@@ -36,6 +36,7 @@ class HashTable{
             return (home % maxSize); 
         } 
 
+        //probe function
         int hash2(string password_name){
             int j, i; 
             for(i = 0; i < password_name.size(); i++){

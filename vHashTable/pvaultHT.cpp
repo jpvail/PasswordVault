@@ -56,7 +56,7 @@ bool interact_login(string* loginpassword, int* size){
         myfile >> stored_password >> prevSize;  
         if(decrypt(stored_password).compare(inputpassword) == 0){
             myfile.close();
-            try{
+            try{ 
                 *size = stoi(prevSize);
             }catch(...){
                 cout << "Database Error: No number indicating size of database" << endl;

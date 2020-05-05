@@ -42,10 +42,8 @@ bool checkForAcct(){
         }else{
             return false;  
         }
-    }else{
-        cout << "No database file in directory" << endl; 
-        return false;  
     }
+    return false; 
 }
 
 
@@ -63,6 +61,64 @@ bool interact_login(string* loginpassword){
         }else{
             return false; 
         }
+    }else{
+        cout << "No database file in directory" << endl; 
+        return false;
+    }
+}
+
+bool interact_createAcct(){ 
+    string pwrd1, pwrd2, quitorcont; 
+    while((pwrd1.size() == 0 && pwrd2.size() == 0) || pwrd1.compare(pwrd2) != 0){
+        cout << "Welcome. Create a password: "; 
+        cin >> pwrd1; 
+        cout << "Confirm new password: "; 
+        cin >> pwrd2; 
+        if(pwrd1.compare(pwrd2) != 0){
+            cout  << "Passwords must match." << endl; 
+        }
+    }
+    fstream myfile("database.txt"); 
+    if(myfile.is_open()){
+        myfile << encrypt(pwrd1) << "\n";
+        int errorcheck = 1; 
+        while(errorcheck){
+            errorcheck = 0; 
+            cout << "Would you like to store new passwords (y / n)? ";
+            cin >> quitorcont;
+            if(quitorcont.compare("y") == 0){
+                int insert_another_password = 1;
+                while(insert_another_password){
+                    string password_name, password, another; 
+                    cout << "Insert name for this password: ";
+                    cin >> password_name;   
+                    cout << "Insert password (will be encrypted): ";
+                    cin >> password;
+                    myfile << password_name << " " << encrypt(password) << '\n'; 
+                    int y = 1; 
+                    while(y){
+                        y = 0;
+                        cout << "Would you like to store another (y / n)? ";
+                        cin >> another;
+                        if(another.compare("y") == 0){
+                            insert_another_password = 1;
+                        }else if(another.compare("n") == 0){
+                            insert_another_password = 0; 
+                        }else{
+                            y = 1;
+                        }
+                    }                                    
+                } 
+                myfile.close(); 
+                return true; 
+            }else if(quitorcont.compare("n") == 0){
+                myfile.close(); 
+                return true; 
+            }else{
+                errorcheck = 1; 
+            }
+        }
+        return false; 
     }else{
         cout << "No database file in directory" << endl; 
         return false;
@@ -142,16 +198,6 @@ void removePassword(DoublyLinkedList* dlls){
     }
 }
 
-void updateDataBase(DoublyLinkedList* dlls, string loginpassword){
-    ofstream myfile("database.txt", std::ofstream::trunc);
-    myfile << loginpassword << endl;
-    while((*dlls).length() > 0){
-        Pw temp = (*dlls).pop();
-        myfile << temp.password_name << " " << encrypt(temp.password_real) << "\n"; 
-    }
-    myfile.close();
-}
-
 void getPassword(DoublyLinkedList* dlls){
     string password_name; 
     cout << "Name of password to find: ";
@@ -171,64 +217,16 @@ void getPassword(DoublyLinkedList* dlls){
 #endif
 }
 
-
-bool interact_createAcct(){ 
-    string pwrd1, pwrd2, quitorcont; 
-    while((pwrd1.size() == 0 && pwrd2.size() == 0) || pwrd1.compare(pwrd2) != 0){
-        cout << "Welcome. Create a password: "; 
-        cin >> pwrd1; 
-        cout << "Confirm new password: "; 
-        cin >> pwrd2; 
-        if(pwrd1.compare(pwrd2) != 0){
-            cout  << "Passwords must match." << endl; 
-        }
+void updateDataBase(DoublyLinkedList* dlls, string loginpassword){
+    ofstream myfile("database.txt", std::ofstream::trunc);
+    myfile << loginpassword << endl;
+    while((*dlls).length() > 0){
+        Pw temp = (*dlls).pop();
+        myfile << temp.password_name << " " << encrypt(temp.password_real) << "\n"; 
     }
-    fstream myfile("database.txt"); 
-    if(myfile.is_open()){
-        myfile << encrypt(pwrd1) << "\n";
-        int errorcheck = 1; 
-        while(errorcheck){
-            errorcheck = 0; 
-            cout << "Would you like to store new passwords (y / n)? ";
-            cin >> quitorcont;
-            if(quitorcont.compare("y") == 0){
-                int insert_another_password = 1;
-                while(insert_another_password){
-                    string password_name, password, another; 
-                    cout << "Insert name for this password: ";
-                    cin >> password_name;   
-                    cout << "Insert password (will be encrypted): ";
-                    cin >> password;
-                    myfile << password_name << " " << encrypt(password) << '\n'; 
-                    int y = 1; 
-                    while(y){
-                        y = 0;
-                        cout << "Would you like to store another (y / n)? ";
-                        cin >> another;
-                        if(another.compare("y") == 0){
-                            insert_another_password = 1;
-                        }else if(another.compare("n") == 0){
-                            insert_another_password = 0; 
-                        }else{
-                            y = 1;
-                        }
-                    }                                    
-                } 
-                myfile.close(); 
-                return true; 
-            }else if(quitorcont.compare("n") == 0){
-                myfile.close(); 
-                return true; 
-            }else{
-                errorcheck = 1; 
-            }
-        }
-        return false; 
-    }else{
-        cout << "No database file in directory" << endl; 
-        return false;
-    }
+    myfile.close();
 }
+
 
 
 int main(int argc, char *argv[]){

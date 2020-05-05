@@ -66,6 +66,7 @@ class DoublyLinkedList{
             tail->prev = tail->prev->next = new Node(name, pwrd, tail->prev, tail);
             size++;
         }
+        
         //O(1)  
         Pw pop(){
             assert(tail->prev != head && "Stack is empty");
