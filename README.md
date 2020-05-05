@@ -7,6 +7,6 @@ Users create an account after opening the application for the first time which i
 Password Vault is unique in that it stores all of your information in a textfile located in the same directory as the application executable itself. However, all of the private data within the textfile is encrypted using a secret formula. 
 
 ## The application is available in two versions: 
-- One which uses a doubly linked list for constant time insertion capabilities and less space overhead. 
+- One which uses a doubly linked list for constant time insertion capabilities. 
 - One which uses a hash table for faster search and remove capabilities. 
 
