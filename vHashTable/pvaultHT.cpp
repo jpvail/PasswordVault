@@ -82,7 +82,7 @@ void buildHT(HashTable* ht){
         myfile >> passw_name >> passw_real;
         if(myfile.eof()) break; 
 #if ADD_TESTING
-        cout << "Time taken to add element to database with " << ht->count() << " elements: " << endl;
+        
         auto start = chrono::high_resolution_clock::now(); 
 #endif 
         (*ht).insert(passw_name, decrypt(passw_real)); 
