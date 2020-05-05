@@ -83,7 +83,7 @@ class DoublyLinkedList{
         //O(n)  
         void findPassword(string name){
             assert( size > 0 && "Stack is empty");
-            //bool check = true; 
+            bool check = true; 
             Node* curr = head; 
             for(int i = 0; i < size+1; ++i){
                 if(curr->password_name == name){

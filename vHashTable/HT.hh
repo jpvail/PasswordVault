@@ -27,10 +27,11 @@ class HashTable{
         int top; 
         Pw* array; 
 
+
         int hash(string password_name){
-            int home = 7;
+            int home;
             for (int i = 0; i < password_name.size(); i++){
-                home = home*31 + password_name[i];
+                home += (7)*31 + password_name[i];
             }
             return (home % maxSize); 
         } 
