@@ -29,9 +29,9 @@ class HashTable{
 
         //hash function
         int hash(string password_name){
-            int home;
+            int home = 7;
             for (int i = 0; i < password_name.size(); i++){
-                home += (7)*31 + password_name[i];
+                home = home*31 + password_name[i];
             }
             return (home % maxSize); 
         } 
