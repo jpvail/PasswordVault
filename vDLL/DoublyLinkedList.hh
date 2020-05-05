@@ -93,10 +93,9 @@ class DoublyLinkedList{
                 }
                 curr = curr->next; 
             }
-            /*
             if(check){
                 cout << "NOT FOUND" << endl; 
-            }*/
+            }
         }
 
         //O(n)
